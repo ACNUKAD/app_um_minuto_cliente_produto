@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190205022600) do
+ActiveRecord::Schema.define(version: 20200915175140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 20190205022600) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pedidos", force: :cascade do |t|
+    t.integer  "cliente_id"
+    t.integer  "produto_id"
+    t.float    "valor_total"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["cliente_id"], name: "index_pedidos_on_cliente_id", using: :btree
+    t.index ["produto_id"], name: "index_pedidos_on_produto_id", using: :btree
+  end
+
   create_table "produtos", force: :cascade do |t|
     t.string   "nome"
     t.float    "preco"
@@ -31,4 +41,6 @@ ActiveRecord::Schema.define(version: 20190205022600) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "pedidos", "clientes"
+  add_foreign_key "pedidos", "produtos"
 end
